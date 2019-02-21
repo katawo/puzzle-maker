@@ -1,3 +1,5 @@
+import { getRndInteger, randomChar } from "../util";
+
 export function generateBoard(words) {
   if (!words || words.length === 0) return [];
   console.log("generate board");
@@ -20,12 +22,11 @@ export function generateBoard(words) {
         direction = randomDirection();
         position = randomPosition(size - 1, w.length);
         rest = randomPosition(size - 1, 0);
+        console.log({ count, direction, position, rest, w });
       } while (
         !isValid(board, direction, position, rest, w) &&
         ++count < MAX_TRY
       );
-
-      // console.log({ count, direction, position, rest, w });
 
       if (count >= MAX_TRY) {
         // Ignore this word
@@ -55,8 +56,7 @@ function isValid(board, direction, position, rest, word) {
   if (direction === 0) {
     // Horizontally
     for (let i = 0; i < word.length; i++) {
-      // console.log({ position });
-
+      console.log({ position });
       const existingChar = board[position++][rest];
       if (existingChar !== "" && existingChar !== word[i]) {
         valid = false;
@@ -97,16 +97,6 @@ function randomDirection() {
 
 function randomPosition(size, length) {
   return getRndInteger(0, size - length);
-}
-
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function randomChar() {
-  var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZ";
-  var rnum = Math.floor(Math.random() * chars.length);
-  return chars[rnum];
 }
 
 function fillRandomChar(board) {
