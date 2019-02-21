@@ -1,15 +1,14 @@
 {
   "main.css": "/puzzle-maker/static/css/main.3853fb02.chunk.css",
-  "main.js": "/puzzle-maker/static/js/main.13e9a8e5.chunk.js",
-  "main.js.map": "/puzzle-maker/static/js/main.13e9a8e5.chunk.js.map",
+  "main.js": "/puzzle-maker/static/js/main.c29c9917.chunk.js",
+  "main.js.map": "/puzzle-maker/static/js/main.c29c9917.chunk.js.map",
   "runtime~main.js": "/puzzle-maker/static/js/runtime~main.f2ae4139.js",
   "runtime~main.js.map": "/puzzle-maker/static/js/runtime~main.f2ae4139.js.map",
-  "static/css/2.9e6285de.chunk.css": "/puzzle-maker/static/css/2.9e6285de.chunk.css",
-  "static/js/2.d34f7877.chunk.js": "/puzzle-maker/static/js/2.d34f7877.chunk.js",
-  "static/js/2.d34f7877.chunk.js.map": "/puzzle-maker/static/js/2.d34f7877.chunk.js.map",
+  "static/js/2.ba1ca5ba.chunk.js": "/puzzle-maker/static/js/2.ba1ca5ba.chunk.js",
+  "static/js/2.ba1ca5ba.chunk.js.map": "/puzzle-maker/static/js/2.ba1ca5ba.chunk.js.map",
   "index.html": "/puzzle-maker/index.html",
-  "precache-manifest.260feda38aadfd2a1da5dac2aa403904.js": "/puzzle-maker/precache-manifest.260feda38aadfd2a1da5dac2aa403904.js",
+  "precache-manifest.650db6ea7a50c21baeb4d2ebf2781afb.js": "/puzzle-maker/precache-manifest.650db6ea7a50c21baeb4d2ebf2781afb.js",
   "service-worker.js": "/puzzle-maker/service-worker.js",
-  "static/css/2.9e6285de.chunk.css.map": "/puzzle-maker/static/css/2.9e6285de.chunk.css.map",
-  "static/css/main.3853fb02.chunk.css.map": "/puzzle-maker/static/css/main.3853fb02.chunk.css.map"
+  "static/css/main.3853fb02.chunk.css.map": "/puzzle-maker/static/css/main.3853fb02.chunk.css.map",
+  "static/media/logo.svg": "/puzzle-maker/static/media/logo.5d5d9eef.svg"
 }
