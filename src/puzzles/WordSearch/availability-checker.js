@@ -4,8 +4,8 @@ export function isValid(board, word, direction, initPosition) {
   for (let i = 0; i < word.length; i++) {
     const xcell = initPosition.x + i * direction.x;
     const ycell = initPosition.y + i * direction.y;
-    const existingCell = board[xcell][ycell];
-    if (existingCell !== "" && existingCell !== word[i]) {
+    const existingChar = board[xcell][ycell].char;
+    if (existingChar !== '' && existingChar !== word[i]) {
       return false;
     }
   }

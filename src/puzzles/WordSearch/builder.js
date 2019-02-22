@@ -1,6 +1,15 @@
-import { randomChar } from "../util";
-import { pickRandomDirection, pickRandomPosition } from "./random-pick";
-import { isValid } from "./avalabilityChecker";
+import { randomChar } from '../util';
+import { pickRandomDirection, pickRandomPosition } from './random-pick';
+import { isValid } from './availability-checker';
+
+function createCell(char, key = -1, checkSum = 0) {
+  // Should have cellId
+  return {
+    char,
+    key,
+    checkSum
+  };
+}
 
 export function generateBoard(words) {
   // calculate board size
@@ -9,7 +18,7 @@ export function generateBoard(words) {
   // fill random chars to empty cells
   // return
   if (!words || words.length === 0) return [];
-  console.log("generate board");
+  console.log('generate board');
 
   words.sort((a, b) => a.length < b.length);
   const ADDITIONAL_CELL = 3;
@@ -20,8 +29,8 @@ export function generateBoard(words) {
   words
     .filter(x => x)
     .map(x => x.trim().toUpperCase())
-    .forEach(w => {
-      tryToFillWordToBoard(board, w);
+    .forEach((w, index) => {
+      tryToFillWordToBoard(board, w, index);
     });
 
   fillRandomChar(board);
@@ -34,7 +43,7 @@ function initBoard(size) {
   for (let i = 0; i < size; i++) {
     const row = [];
     for (let j = 0; j < size; j++) {
-      row.push("");
+      row.push(createCell(''));
     }
     board.push(row);
   }
@@ -45,19 +54,19 @@ function initBoard(size) {
 function fillRandomChar(board) {
   board.forEach(row => {
     for (let i = 0; i < row.length; i++) {
-      if (row[i] === "") {
-        row[i] = randomChar();
+      if (row[i].char === '') {
+        row[i].char = randomChar();
       }
     }
   });
 }
 
-function tryToFillWordToBoard(board, word) {
+function tryToFillWordToBoard(board, word, key) {
   // random direction
   // random position
-  // check if avalability
+  // check if availability
   // try some times
-  // return sucess or not
+  // return success or not
   const MAX_TRY = 10;
   let count = 0;
   let direction;
@@ -71,18 +80,18 @@ function tryToFillWordToBoard(board, word) {
 
   if (count >= MAX_TRY) {
     // Ignore this word
-    console.log("ignore the word >>>", word);
+    console.log('ignore the word >>>', word);
 
     return;
   }
 
-  fillWordToBoard(board, word, direction, position);
+  fillWordToBoard(board, word, direction, position, key);
 }
 
-function fillWordToBoard(board, word, direction, initPosition) {
+function fillWordToBoard(board, word, direction, initPosition, key) {
   for (let i = 0; i < word.length; i++) {
     const xcell = initPosition.x + i * direction.x;
     const ycell = initPosition.y + i * direction.y;
-    board[xcell][ycell] = word[i];
+    board[xcell][ycell] = createCell(word[i], key, word.length);
   }
 }

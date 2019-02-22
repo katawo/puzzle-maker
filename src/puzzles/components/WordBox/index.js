@@ -19,9 +19,51 @@ const Box = styled.span`
 `;
 
 /* eslint-disable react/prefer-stateless-function */
+
+const SELECTED_COLOR = 'red';
+const CORRECT_COLOR = 'green';
+const DISPLAY_COLOR = 'gray';
+
 class WordBox extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      color: DISPLAY_COLOR,
+      selected: false
+    };
+  }
+
+  toggle() {
+    this.setState(
+      {
+        selected: !this.state.selected
+      },
+      () => this.props.onToggled(this.props.value, this.state.selected)
+    );
+  }
+
   render() {
-    return <Box>{this.props.value}</Box>;
+    const stylesObj = {
+      background: this.props.completed
+        ? CORRECT_COLOR
+        : this.state.selected
+        ? SELECTED_COLOR
+        : DISPLAY_COLOR
+    };
+
+    return (
+      <Box
+        onClick={() => {
+          if (!this.props.completed) {
+            this.toggle();
+          }
+        }}
+        style={stylesObj}
+      >
+        {this.props.value.char}
+      </Box>
+    );
   }
 }
 
