@@ -38,7 +38,7 @@ class WordSearch extends React.Component {
   handleChange(event) {
     const textValue = event.target.value;
     this.setState({ textValue, words: [] });
-    console.log("value >>> ", textValue);
+    // console.log("value >>> ", textValue);
   }
 
   render() {
