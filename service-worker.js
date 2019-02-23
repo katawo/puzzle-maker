@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/puzzle-maker/precache-manifest.8cad069b1693fb9ab4a47e4d34b41f91.js"
+  "/puzzle-maker/precache-manifest.b2b02bdb6fd9d04205ea9ece6d9034a3.js"
 );
 
 workbox.clientsClaim();
