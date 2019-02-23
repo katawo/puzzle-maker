@@ -6,9 +6,16 @@ function createCell(char, key = -1, checkSum = 0) {
   // Should have cellId
   return {
     char,
+    tags: [{ key, checkSum }]
+  };
+}
+
+function appendTagToCell(cell, key, checkSum) {
+  cell.tags.push({
     key,
     checkSum
-  };
+  });
+  return cell;
 }
 
 export function generateBoard(words) {
@@ -67,7 +74,7 @@ function tryToFillWordToBoard(board, word, key) {
   // check if availability
   // try some times
   // return success or not
-  const MAX_TRY = 10;
+  const MAX_TRY = 100;
   let count = 0;
   let direction;
   let position;
@@ -92,6 +99,11 @@ function fillWordToBoard(board, word, direction, initPosition, key) {
   for (let i = 0; i < word.length; i++) {
     const xcell = initPosition.x + i * direction.x;
     const ycell = initPosition.y + i * direction.y;
-    board[xcell][ycell] = createCell(word[i], key, word.length);
+    const cell = board[xcell][ycell];
+    if (cell.char) {
+      appendTagToCell(cell, key, word.length);
+    } else {
+      board[xcell][ycell] = createCell(word[i], key, word.length);
+    }
   }
 }

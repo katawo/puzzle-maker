@@ -1,9 +1,3 @@
-/**
- *
- * WordBox
- *
- */
-
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -45,19 +39,17 @@ class WordBox extends React.Component {
 
   render() {
     const stylesObj = {
-      background: this.props.completed
-        ? CORRECT_COLOR
-        : this.state.selected
+      background: this.state.selected
         ? SELECTED_COLOR
+        : this.props.completed
+        ? CORRECT_COLOR
         : DISPLAY_COLOR
     };
 
     return (
       <Box
         onClick={() => {
-          if (!this.props.completed) {
-            this.toggle();
-          }
+          this.toggle();
         }}
         style={stylesObj}
       >

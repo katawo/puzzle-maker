@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Button, Col } from 'react-bootstrap';
 import WordBox from '../components/WordBox';
-// import words from './sample';
 import { generateBoard } from './builder';
 import _ from 'lodash';
 
@@ -24,15 +23,26 @@ class WordSearch extends React.Component {
     };
   }
 
+  checkWordBoxComplete(tags) {
+    for (let i = 0; i < tags.length; i++) {
+      if (this.state.wordsFound.includes(tags[i].key)) {
+        return tags[i].key;
+      }
+    }
+    return '';
+  }
+
   generateRow(arr, index) {
     const items = [];
     for (let i = 0; i < arr.length; i++) {
+      const cellValue = arr[i];
+      const foundKey = this.checkWordBoxComplete(cellValue.tags);
       items.push(
         <WordBox
-          value={arr[i]}
-          key={i}
+          value={cellValue}
+          key={i.toString() + foundKey.toString()} // to re-instantiate component
           onToggled={this.handleCellToggled}
-          completed={_.includes(this.state.wordsFound, arr[i].key)}
+          completed={_.isNumber(foundKey)}
         />
       );
     }
@@ -40,7 +50,7 @@ class WordSearch extends React.Component {
   }
 
   handleCellToggled = (value, state) => {
-    console.log('cell toggled >>> ', value, state);
+    // console.log('cell toggled >>> ', value, state);
     let selectedCells;
     if (state) {
       selectedCells = [...this.state.selectedCells, value];
@@ -56,7 +66,7 @@ class WordSearch extends React.Component {
       },
       () => {
         const completedKey = this.checkWordComplete();
-        console.log('>>> completedKey: ', completedKey);
+        // console.log('>>> completedKey: ', completedKey);
 
         if (_.isNumber(completedKey)) {
           console.log('congratulation >>> you found one word');
@@ -75,15 +85,23 @@ class WordSearch extends React.Component {
     // num of items = checkSum
     // key > 0
     if (selectedCells && selectedCells.length > 0) {
-      const { key, checkSum } = selectedCells[0];
-      if (key >= 0 && checkSum === selectedCells.length) {
-        const sameKey = _.every(selectedCells, x => x.key === key);
-        if (sameKey) {
-          return key;
+      const { tags } = selectedCells[0];
+      let foundKey = null;
+      // console.log('tags ', tags, selectedCells);
+      tags.forEach(({ key, checkSum }) => {
+        if (key >= 0 && checkSum === selectedCells.length) {
+          const sameKey = _.every(selectedCells, cell =>
+            _.some(cell.tags, tag => tag.key === key)
+          );
+          // console.log('tag >>> ', { key, checkSum, sameKey });
+          if (sameKey) {
+            foundKey = key;
+            return;
+          }
         }
-      } else {
-        return null;
-      }
+      });
+
+      return foundKey;
     } else {
       return null;
     }
@@ -108,7 +126,6 @@ class WordSearch extends React.Component {
 
   render() {
     // console.log('board rendering >>> ', this.state);
-
     const boxes = [];
     const { board } = this.state;
     for (let i = 0; i < board.length; i++) {
