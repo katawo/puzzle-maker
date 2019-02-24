@@ -68,7 +68,7 @@ export default class BoardContainer extends Component {
   };
 
   handleWordFound = key => {
-    this.props.onWordFound(key);
+    this.props.onWordFound(this.state.wordsFound);
     const { wordsFound } = this.state;
     if (
       wordsFound.length > 0 &&

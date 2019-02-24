@@ -3,7 +3,6 @@ import { pickRandomDirection, pickRandomPosition } from './random-pick';
 import { isValid } from './availability-checker';
 
 function createCell(char, key = -1, checkSum = 0) {
-  // Should have cellId
   return {
     char,
     tags: [{ key, checkSum }]
@@ -18,25 +17,29 @@ function appendTagToCell(cell, key, checkSum) {
   return cell;
 }
 
-export function generateBoard(words) {
+export function generateBoard(originalWords) {
   // calculate board size
   // init empty board
   // fill all the words from longest one
   // fill random chars to empty cells
   // return
+  let words = [...originalWords];
   if (!words || words.length === 0) return [];
-  console.log('generate board');
+  // console.log('generate board');
 
-  words.sort((a, b) => a.length < b.length);
+  words.sort((a, b) => b.length - a.length);
   const ADDITIONAL_CELL = 3;
   const size = words[0].length + ADDITIONAL_CELL;
   const board = initBoard(size);
-  // console.log({ words, size });
+  // console.log({ data: originalWords, words, size });
 
   words
     .filter(x => x)
     .map(x => x.trim().toUpperCase())
-    .forEach((w, index) => {
+    .forEach(w => {
+      // use as the key of word in the word list
+      const index = originalWords.findIndex(x => x.trim().toUpperCase() === w);
+      // console.log({ w, index, words });
       tryToFillWordToBoard(board, w, index);
     });
 
