@@ -1,8 +1,8 @@
 import React from "react";
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import { Form, Button, Col, Alert, ListGroup, Row } from "react-bootstrap";
-import Board from "./components/Board";
+import { Form, Button, Col, Alert } from "react-bootstrap";
+import GamePlayingContainer from "./GamePlaying";
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -16,14 +16,14 @@ class WordSearch extends React.Component {
     super(props);
     this.state = {
       words: [],
-      boardId: 0,
+      // boardId: 0,
       gameEnded: false,
       gameStatus: GameStatus.Making
     };
   }
 
   generate() {
-    if (!this.state.textValue) return;
+    if (!this.state.textValue || !this.state.textValue.trim()) return;
 
     const words = this.state.textValue.split("\n").filter(x => x.trim() !== "");
     // const board = generateBoard(words);
@@ -83,60 +83,14 @@ class WordSearch extends React.Component {
         {/* <Row>
           <Col sm="6"> */}
         {this.state.gameStatus === GameStatus.Playing && (
-          <div>
-            <h1>Title should be here</h1>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <Board
-                words={this.state.words}
-                onCompleted={this.handleGameEnded}
-                key={this.state.boardId}
-                onWordFound={wordsFound => {
-                  // console.log("on word found");
-                  this.setState({ wordsFound });
-                }}
-              />
-              <div>
-                <ListGroup>
-                  {this.state.words.map((w, index) => {
-                    return (
-                      <ListGroup.Item
-                        key={index}
-                        variant={
-                          this.state.wordsFound &&
-                          this.state.wordsFound.includes(index)
-                            ? "dark"
-                            : ""
-                        }
-                      >
-                        {w}
-                      </ListGroup.Item>
-                    );
-                  })}
-                </ListGroup>
-              </div>
-              <Col sm="auto" />
-              <Col sm="auto" />
-            </div>
-            <br />
-            <br />
-            <Button
-              variant="success"
-              onClick={() => {
-                this.setState({
-                  gameStatus: GameStatus.Making
-                });
-              }}
-            >
-              Remake
-            </Button>
-            <br />
-            <br />
-          </div>
+          <GamePlayingContainer
+            words={this.state.words}
+            onRemake={() =>
+              this.setState({
+                gameStatus: GameStatus.Making
+              })
+            }
+          />
         )}
         {/* </Col>
         </Row> */}
