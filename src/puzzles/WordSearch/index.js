@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import { Form, Button, Col, Alert, ListGroup, Row } from 'react-bootstrap';
-import Board from './components/Board';
+import { Form, Button, Col, Alert, ListGroup, Row } from "react-bootstrap";
+import Board from "./components/Board";
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -25,7 +25,7 @@ class WordSearch extends React.Component {
   generate() {
     if (!this.state.textValue) return;
 
-    const words = this.state.textValue.split('\n').filter(x => x.trim() !== '');
+    const words = this.state.textValue.split("\n").filter(x => x.trim() !== "");
     // const board = generateBoard(words);
     this.setState({
       words: words.map(x => x.trim()),
@@ -85,8 +85,22 @@ class WordSearch extends React.Component {
         {this.state.gameStatus === GameStatus.Playing && (
           <div>
             <h1>Title should be here</h1>
-            <Row>
-              <Col sm="auto">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center"
+              }}
+            >
+              <Board
+                words={this.state.words}
+                onCompleted={this.handleGameEnded}
+                key={this.state.boardId}
+                onWordFound={wordsFound => {
+                  // console.log("on word found");
+                  this.setState({ wordsFound });
+                }}
+              />
+              <div>
                 <ListGroup>
                   {this.state.words.map((w, index) => {
                     return (
@@ -95,8 +109,8 @@ class WordSearch extends React.Component {
                         variant={
                           this.state.wordsFound &&
                           this.state.wordsFound.includes(index)
-                            ? 'dark'
-                            : ''
+                            ? "dark"
+                            : ""
                         }
                       >
                         {w}
@@ -104,20 +118,10 @@ class WordSearch extends React.Component {
                     );
                   })}
                 </ListGroup>
-              </Col>
-              <Col sm="auto">
-                <Board
-                  words={this.state.words}
-                  onCompleted={this.handleGameEnded}
-                  key={this.state.boardId}
-                  onWordFound={wordsFound => {
-                    // TODO:
-                    console.log('on word found');
-                    this.setState({ wordsFound });
-                  }}
-                />
-              </Col>
-            </Row>
+              </div>
+              <Col sm="auto" />
+              <Col sm="auto" />
+            </div>
             <br />
             <br />
             <Button
