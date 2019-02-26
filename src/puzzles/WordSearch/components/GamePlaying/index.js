@@ -16,7 +16,7 @@ export default class GamePlayingContainer extends Component {
     };
   }
 
-  handleGameEndedhandleGameEnded = () => {
+  handleGameEnded = () => {
     const { wordsFound } = this.state;
     if (
       wordsFound.length > 0 &&
@@ -32,7 +32,8 @@ export default class GamePlayingContainer extends Component {
     const { words } = this.props;
     return (
       <div>
-        <h1>Title should be here</h1>
+        <h1>{this.props.topic || "Have fun"}</h1>
+        <br />
         <div
           style={{
             display: "flex",
@@ -46,6 +47,15 @@ export default class GamePlayingContainer extends Component {
             }}
           />
           <div>
+            <Button
+              variant="success"
+              onClick={this.props.onRemake}
+              disabled={!this.state.gameEnded}
+            >
+              Remake
+            </Button>
+            <br />
+            <br />
             <ListGroup>
               {words.map((w, index) => {
                 return (
@@ -65,11 +75,6 @@ export default class GamePlayingContainer extends Component {
             </ListGroup>
           </div>
         </div>
-        <br />
-        <br />
-        <Button variant="success" onClick={this.props.onRemake}>
-          Remake
-        </Button>
         <br />
         <br />
         {this.state.gameEnded && (

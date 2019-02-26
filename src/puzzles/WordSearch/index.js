@@ -17,13 +17,12 @@ class WordSearch extends React.Component {
     gameStatus: GameStatus.Making
   };
 
-  makeGame = words => {
+  makeGame = (words, topic) => {
     this.setState({
-      words: words.map(x => x.trim()),
-      // boardId: this.state.boardId + 1,
+      words,
+      topic,
       gameEnded: false,
       gameStatus: GameStatus.Playing
-      // wordsFound: []
     });
   };
 
@@ -37,6 +36,7 @@ class WordSearch extends React.Component {
         {this.state.gameStatus === GameStatus.Playing && (
           <GamePlayingContainer
             words={this.state.words}
+            topic={this.state.topic}
             onRemake={() =>
               this.setState({
                 gameStatus: GameStatus.Making
