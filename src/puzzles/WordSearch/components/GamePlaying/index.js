@@ -1,28 +1,31 @@
 import React, { Component } from "react";
 import { Button, ListGroup, Alert } from "react-bootstrap";
-import Board from "../components/Board";
+import Board from "../Board";
 import PropTypes from "prop-types";
 
 export default class GamePlayingContainer extends Component {
   static propTypes = {
     words: PropTypes.array.isRequired
-    // onWordFound: PropTypes.func,
-    // onCompleted: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      //   boardId: 0,
       gameEnded: false,
       wordsFound: []
     };
   }
 
-  handleGameEnded = () => {
-    this.setState({
-      gameEnded: true
-    });
+  handleGameEndedhandleGameEnded = () => {
+    const { wordsFound } = this.state;
+    if (
+      wordsFound.length > 0 &&
+      wordsFound.length === this.props.words.length
+    ) {
+      this.setState({
+        gameEnded: true
+      });
+    }
   };
 
   render() {
@@ -38,11 +41,8 @@ export default class GamePlayingContainer extends Component {
         >
           <Board
             words={words}
-            onCompleted={this.handleGameEnded}
-            // key={this.state.boardId}
             onWordFound={wordsFound => {
-              // console.log("on word found");
-              this.setState({ wordsFound });
+              this.setState({ wordsFound }, this.handleGameEnded);
             }}
           />
           <div>

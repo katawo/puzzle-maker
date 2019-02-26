@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Board from './Board';
-import _ from 'lodash';
-import { generateBoard } from '../../builder';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Board from "./Board";
+import _ from "lodash";
+import { generateBoard } from "../../builder";
 
 export default class BoardContainer extends Component {
   static propTypes = {
     words: PropTypes.array.isRequired,
-    onWordFound: PropTypes.func,
-    onCompleted: PropTypes.func
+    onWordFound: PropTypes.func
   };
 
   constructor(props) {
@@ -19,7 +18,6 @@ export default class BoardContainer extends Component {
       wordsFound: [],
       board: generateBoard(props.words)
     };
-    // console.log(props, this.state);
   }
 
   findFoundKeyInBox = boxData => {
@@ -29,7 +27,7 @@ export default class BoardContainer extends Component {
         return sum + value.key;
       }
       return sum;
-    }, '');
+    }, "");
   };
 
   handleCellToggled = (value, state) => {
@@ -56,25 +54,14 @@ export default class BoardContainer extends Component {
     // console.log('>>> completedKey: ', completedKey);
 
     if (_.isNumber(completedKey)) {
-      console.log('congratulation >>> you found one word');
+      console.log("congratulation >>> you found one word");
       this.setState(
         {
           selectedCells: [],
           wordsFound: [...this.state.wordsFound, completedKey]
         },
-        this.handleWordFound
+        () => this.props.onWordFound(this.state.wordsFound)
       );
-    }
-  };
-
-  handleWordFound = key => {
-    this.props.onWordFound(this.state.wordsFound);
-    const { wordsFound } = this.state;
-    if (
-      wordsFound.length > 0 &&
-      wordsFound.length === this.props.words.length
-    ) {
-      this.props.onCompleted();
     }
   };
 
