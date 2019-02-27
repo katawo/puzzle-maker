@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Form, Button, Col } from "react-bootstrap";
-import { toUnsigendVietnamese } from "../../../util";
+import React, { Component } from 'react';
+import { Form, Button, Col } from 'react-bootstrap';
+import { toUnsignedVietnamese } from '../../../util';
 
 export default class GameMaking extends Component {
   state = {
-    gameTitle: "",
-    textValue: ""
+    gameTitle: '',
+    textValue: ''
   };
 
   handleWordsChange(event) {
@@ -23,13 +23,14 @@ export default class GameMaking extends Component {
     // Remove spaces
     // split by comma or line
     // remove empty items
-    const unsignedText = toUnsigendVietnamese(this.state.textValue);
+    // const unsignedText = toUnsignedVietnamese(this.state.textValue);
     // console.log({ unsignedText, replace: unsignedText.replace(/ */g, "") });
 
-    const words = unsignedText
-      .replace(/ */g, "")
+    const words = this.state.textValue
+      .replace(/ */g, '')
       .split(/,|\n/)
-      .filter(x => x);
+      .filter(x => x)
+      .map(x => toUnsignedVietnamese(x));
     if (words.length === 0) return;
 
     this.props.onMakeGame(words, this.state.gameTitle);
