@@ -67,7 +67,7 @@ export default class GameMaking extends Component {
             </Col>
           </Form.Row>
           <Form.Text className="text-muted">
-            Separated by comma (,) or by line
+            Separated by comma (,) or line
           </Form.Text>
           <br />
           <Button

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import WordBox from "../../../components/WordBox";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import WordBox from '../../../components/WordBox';
 
 const RowContainer = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ function Board({ board, onCellToggled, findFoundKeyInBox }) {
           value={cellValue}
           key={cellKey} // to re-instantiate component
           onToggled={onCellToggled}
-          completed={keyOfWordFoundInBox !== ""}
+          completed={keyOfWordFoundInBox !== ''}
         />
       );
     }
@@ -35,7 +35,18 @@ function Board({ board, onCellToggled, findFoundKeyInBox }) {
     boxes.push(generateRow(board[i], i));
   }
 
-  return <div style={{ margin: "0 15px 0 0" }}>{boxes}</div>;
+  return (
+    <div
+      style={{
+        margin: '0 15px 0 0',
+        paddingTop: '1px',
+        paddingRight: '1px',
+        background: 'black'
+      }}
+    >
+      {boxes}
+    </div>
+  );
 }
 
 Board.propTypes = {

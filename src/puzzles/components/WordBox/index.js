@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 // import PropTypes from 'prop-types';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Box = styled.span`
-  background: gray;
+  background: white;
   width: 50px;
   height: 50px;
   text-align: center;
@@ -12,14 +12,15 @@ const Box = styled.span`
   font-size: 2em;
   &:before {
     content: '${props => props.char}';
-  }
+    color: black;
+  };
 `;
 
 /* eslint-disable react/prefer-stateless-function */
 
-const SELECTED_COLOR = "red";
-const CORRECT_COLOR = "green";
-const DISPLAY_COLOR = "gray";
+const SELECTED_COLOR = 'red';
+const CORRECT_COLOR = 'silver';
+const DISPLAY_COLOR = 'white';
 
 class WordBox extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ class WordBox extends React.Component {
         : this.props.completed
         ? CORRECT_COLOR
         : DISPLAY_COLOR
+      // textDecoration: this.props.completed ? 'line-through' : 'none'
     };
 
     return (
