@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Box = styled.span`
   background: gray;
@@ -10,13 +10,16 @@ const Box = styled.span`
   margin-left: 1px;
   margin-bottom: 1px;
   font-size: 2em;
+  &:before {
+    content: '${props => props.char}';
+  }
 `;
 
 /* eslint-disable react/prefer-stateless-function */
 
-const SELECTED_COLOR = 'red';
-const CORRECT_COLOR = 'green';
-const DISPLAY_COLOR = 'gray';
+const SELECTED_COLOR = "red";
+const CORRECT_COLOR = "green";
+const DISPLAY_COLOR = "gray";
 
 class WordBox extends React.Component {
   constructor(props) {
@@ -52,9 +55,8 @@ class WordBox extends React.Component {
           this.toggle();
         }}
         style={stylesObj}
-      >
-        {this.props.value.char}
-      </Box>
+        char={this.props.value.char} // display by pseudo class ::before to disable browser find feature
+      />
     );
   }
 }
