@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Col } from "react-bootstrap";
+import { toUnsigendVietnamese } from "../../../util";
 
 export default class GameMaking extends Component {
   state = {
@@ -19,7 +20,16 @@ export default class GameMaking extends Component {
 
   makeGame() {
     if (!this.state.textValue) return;
-    const words = this.state.textValue.split(",").filter(x => x.trim() !== "");
+    // Remove spaces
+    // split by comma or line
+    // remove empty items
+    const unsignedText = toUnsigendVietnamese(this.state.textValue);
+    // console.log({ unsignedText, replace: unsignedText.replace(/ */g, "") });
+
+    const words = unsignedText
+      .replace(/ */g, "")
+      .split(/,|\n/)
+      .filter(x => x);
     if (words.length === 0) return;
 
     this.props.onMakeGame(words, this.state.gameTitle);
@@ -47,14 +57,17 @@ export default class GameMaking extends Component {
             <Col sm={{ span: 4, offset: 4 }}>
               <Form.Control
                 size="lg"
-                type="text"
                 placeholder="Enter the list of words"
                 value={this.state.textValue}
                 onChange={e => this.handleWordsChange(e)}
+                as="textarea"
+                rows="6"
               />
             </Col>
           </Form.Row>
-          <Form.Text className="text-muted">Separated by comma (,)</Form.Text>
+          <Form.Text className="text-muted">
+            Separated by comma (,) or by line
+          </Form.Text>
           <br />
           <Button
             variant="success"
