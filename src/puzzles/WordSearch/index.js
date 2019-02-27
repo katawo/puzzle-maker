@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import GamePlayingContainer from "./components/GamePlaying";
-import GameMaking from "./components/GameMaking";
+import GamePlayingContainer from './components/GamePlaying';
+import GameMaking from './components/GameMaking';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -37,7 +37,7 @@ class WordSearch extends React.Component {
           <GamePlayingContainer
             words={this.state.words}
             topic={this.state.topic}
-            onRemake={() =>
+            onNewGame={() =>
               this.setState({
                 gameStatus: GameStatus.Making
               })
