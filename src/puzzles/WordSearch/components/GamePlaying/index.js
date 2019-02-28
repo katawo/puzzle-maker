@@ -12,7 +12,8 @@ export default class GamePlayingContainer extends Component {
     super(props);
     this.state = {
       gameEnded: false,
-      wordsFound: []
+      wordsFound: [],
+      boardId: 0
     };
   }
 
@@ -28,7 +29,13 @@ export default class GamePlayingContainer extends Component {
     }
   };
 
-  remake() {}
+  remake = () => {
+    this.setState({
+      gameEnded: false,
+      wordsFound: [],
+      boardId: this.state.boardId + 1
+    });
+  };
 
   render() {
     const { words } = this.props;
@@ -43,6 +50,7 @@ export default class GamePlayingContainer extends Component {
           }}
         >
           <Board
+            key={this.state.boardId}
             words={words}
             onWordFound={wordsFound => {
               this.setState({ wordsFound }, this.handleGameEnded);

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Board from "./Board";
-import _ from "lodash";
-import { generateBoard } from "../../builder";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Board from './Board';
+import _ from 'lodash';
+import { generateBoard } from '../../builder';
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -27,7 +27,7 @@ export default class BoardContainer extends Component {
         return sum + value.key;
       }
       return sum;
-    }, "");
+    }, '');
   };
 
   handleCellToggled = (value, state) => {
@@ -54,7 +54,7 @@ export default class BoardContainer extends Component {
     // console.log('>>> completedKey: ', completedKey);
 
     if (_.isNumber(completedKey)) {
-      console.log("congratulation >>> you found one word");
+      console.log('congratulation >>> you found one word');
       this.setState(
         {
           selectedCells: [],
