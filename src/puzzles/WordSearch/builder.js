@@ -85,24 +85,23 @@ function tryToFillWordToBoard(board, word, key) {
   do {
     direction = pickRandomDirection();
     position = pickRandomPosition(size, word.length, direction);
-    if (count === 0) {
-      console.log('count = 0 >>>', {
-        board: JSON.stringify(board),
-        word,
-        direction,
-        position,
-        count
-      });
-    } else {
-      // JSON.stringify()
-      console.log({
-        board: JSON.stringify(board),
-        word,
-        direction,
-        position,
-        count
-      });
-    }
+    // if (count === 0) {
+    //   console.log('count = 0 >>>', {
+    //     board: JSON.stringify(board),
+    //     word,
+    //     direction,
+    //     position,
+    //     count
+    //   });
+    // } else {
+    //   console.log({
+    //     board: JSON.stringify(board),
+    //     word,
+    //     direction,
+    //     position,
+    //     count
+    //   });
+    // }
   } while (!isValid(board, word, direction, position) && ++count < MAX_TRY);
 
   if (count >= MAX_TRY) {
