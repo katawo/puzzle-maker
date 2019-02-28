@@ -75,8 +75,9 @@ export default class GameMaking extends Component {
             onClick={() => {
               this.makeGame();
             }}
+            disabled={!this.state.textValue.trim()}
           >
-            Make game
+            Generate
           </Button>
         </Form>
       </div>
