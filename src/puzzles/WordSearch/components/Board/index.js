@@ -13,11 +13,16 @@ export default class BoardContainer extends Component {
   constructor(props) {
     super(props);
 
+    const { board, renderFailed } = generateBoard(props.words);
+
     this.state = {
       selectedCells: [],
       wordsFound: [],
-      board: generateBoard(props.words)
+      board,
+      renderFailed: renderFailed
     };
+
+    props.onFinishRender(renderFailed);
   }
 
   findFoundKeyInBox = boxData => {

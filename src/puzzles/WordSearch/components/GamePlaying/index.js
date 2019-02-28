@@ -13,16 +13,14 @@ export default class GamePlayingContainer extends Component {
     this.state = {
       gameEnded: false,
       wordsFound: [],
-      boardId: 0
+      boardId: 0,
+      failedIndexs: []
     };
   }
 
   handleGameEnded = () => {
-    const { wordsFound } = this.state;
-    if (
-      wordsFound.length > 0 &&
-      wordsFound.length === this.props.words.length
-    ) {
+    const { wordsFound, failedIndexs } = this.state;
+    if (wordsFound.length + failedIndexs.length === this.props.words.length) {
       this.setState({
         gameEnded: true
       });
@@ -34,6 +32,13 @@ export default class GamePlayingContainer extends Component {
       gameEnded: false,
       wordsFound: [],
       boardId: this.state.boardId + 1
+    });
+  };
+
+  handleRenderFailed = indexs => {
+    // console.log({ indexs });
+    this.setState({
+      failedIndexs: indexs
     });
   };
 
@@ -55,6 +60,7 @@ export default class GamePlayingContainer extends Component {
             onWordFound={wordsFound => {
               this.setState({ wordsFound }, this.handleGameEnded);
             }}
+            onFinishRender={this.handleRenderFailed}
           />
           <div>
             <Button
@@ -78,10 +84,13 @@ export default class GamePlayingContainer extends Component {
               {words.map((w, index) => {
                 return (
                   <ListGroup.Item
+                    as="li"
                     key={index}
                     variant={
-                      this.state.wordsFound &&
-                      this.state.wordsFound.includes(index)
+                      this.state.failedIndexs.includes(index)
+                        ? 'warning'
+                        : this.state.wordsFound &&
+                          this.state.wordsFound.includes(index)
                         ? 'dark'
                         : ''
                     }

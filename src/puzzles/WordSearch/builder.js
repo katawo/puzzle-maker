@@ -33,6 +33,7 @@ export function generateBoard(originalWords) {
   const board = initBoard(size);
   // console.log({ data: originalWords, words, size });
 
+  const renderFailed = [];
   words
     .filter(x => x)
     .map(x => x.trim().toUpperCase())
@@ -40,12 +41,15 @@ export function generateBoard(originalWords) {
       // use as the key of word in the word list
       const index = originalWords.findIndex(x => x.trim().toUpperCase() === w);
       // console.log({ w, index, words });
-      tryToFillWordToBoard(board, w, index);
+      const success = tryToFillWordToBoard(board, w, index);
+      if (!success) {
+        renderFailed.push(index);
+      }
     });
 
   fillRandomChar(board);
 
-  return board;
+  return { board, renderFailed };
 }
 
 function initBoard(size) {
@@ -104,14 +108,14 @@ function tryToFillWordToBoard(board, word, key) {
     // }
   } while (!isValid(board, word, direction, position) && ++count < MAX_TRY);
 
-  if (count >= MAX_TRY) {
+  if (count < MAX_TRY) {
+    fillWordToBoard(board, word, direction, position, key);
+    return true;
+  } else {
     // Ignore this word
     console.log('ignore the word >>>', word);
-
-    return;
+    return false;
   }
-
-  fillWordToBoard(board, word, direction, position, key);
 }
 
 function fillWordToBoard(board, word, direction, initPosition, key) {
