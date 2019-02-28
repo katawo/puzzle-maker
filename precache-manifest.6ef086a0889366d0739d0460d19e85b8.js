@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/puzzle-maker/static/js/runtime~main.f2ae4139.js"
   },
   {
-    "revision": "52175eb734e8cb29b6ef",
-    "url": "/puzzle-maker/static/js/main.52175eb7.chunk.js"
+    "revision": "5a6d087f098a481cf68d",
+    "url": "/puzzle-maker/static/js/main.5a6d087f.chunk.js"
   },
   {
     "revision": "ec7b19d4c0ce9e948ead",
     "url": "/puzzle-maker/static/js/2.ec7b19d4.chunk.js"
   },
   {
-    "revision": "52175eb734e8cb29b6ef",
+    "revision": "5a6d087f098a481cf68d",
     "url": "/puzzle-maker/static/css/main.3853fb02.chunk.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/puzzle-maker/static/css/2.9e6285de.chunk.css"
   },
   {
-    "revision": "d75e5da89bc7f8a386dd062ad74498e2",
+    "revision": "545cde51d96dfe4288ed08197fa48fd7",
     "url": "/puzzle-maker/index.html"
   }
 ];
