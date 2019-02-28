@@ -36,15 +36,16 @@ function Board({ board, onCellToggled, findFoundKeyInBox }) {
   }
 
   return (
-    <div
-      style={{
-        margin: '0 15px 0 0',
-        paddingTop: '1px',
-        paddingRight: '1px',
-        background: 'black'
-      }}
-    >
-      {boxes}
+    <div style={{ margin: '0 15px 0 0' }}>
+      <div
+        style={{
+          paddingTop: '1px',
+          paddingRight: '1px',
+          background: 'black'
+        }}
+      >
+        {boxes}
+      </div>
     </div>
   );
 }
