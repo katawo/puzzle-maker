@@ -28,3 +28,7 @@ export function toUnsignedVietnamese(text) {
   str = str.trim();
   return str;
 }
+
+export function distinct(array) {
+  return array.filter((value, index, self) => self.indexOf(value) === index);
+}

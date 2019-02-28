@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
-import { toUnsignedVietnamese } from '../../../util';
+import { toUnsignedVietnamese, distinct } from '../../../util';
 
 export default class GameMaking extends Component {
   state = {
@@ -26,11 +26,13 @@ export default class GameMaking extends Component {
     // const unsignedText = toUnsignedVietnamese(this.state.textValue);
     // console.log({ unsignedText, replace: unsignedText.replace(/ */g, "") });
 
-    const words = this.state.textValue
+    let words = this.state.textValue
       .replace(/ */g, '')
       .split(/,|\n/)
       .filter(x => x)
       .map(x => toUnsignedVietnamese(x));
+
+    words = distinct(words);
     if (words.length === 0) return;
 
     this.props.onMakeGame(words, this.state.gameTitle);
