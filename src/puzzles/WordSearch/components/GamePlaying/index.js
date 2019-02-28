@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button, ListGroup, Alert } from 'react-bootstrap';
 import Board from '../Board';
 import PropTypes from 'prop-types';
+import Countdown from 'react-countdown-now';
+import CustomizedCountDown from './CustomizedCountDown';
 
 export default class GamePlayingContainer extends Component {
   static propTypes = {
@@ -14,7 +16,8 @@ export default class GamePlayingContainer extends Component {
       gameEnded: false,
       wordsFound: [],
       boardId: 0,
-      failedIndexs: []
+      failedIndexs: [],
+      timeUp: false
     };
   }
 
@@ -31,8 +34,10 @@ export default class GamePlayingContainer extends Component {
     this.setState({
       gameEnded: false,
       wordsFound: [],
-      boardId: this.state.boardId + 1
+      boardId: this.state.boardId + 1,
+      timeUp: false
     });
+    // TODO: reset timer
   };
 
   handleRenderFailed = indexs => {
@@ -42,11 +47,24 @@ export default class GamePlayingContainer extends Component {
     });
   };
 
+  handleTimeUp = () => {
+    this.setState({
+      timeUp: true
+    });
+  };
+
   render() {
     const { words } = this.props;
     return (
       <div>
         <h1>{this.props.topic || 'Have fun'}</h1>
+        <h2>
+          <Countdown
+            date={Date.now() + 3000}
+            renderer={CustomizedCountDown}
+            onComplete={this.handleTimeUp}
+          />
+        </h2>
         <br />
         <div
           style={{
@@ -55,6 +73,7 @@ export default class GamePlayingContainer extends Component {
           }}
         >
           <Board
+            disabled={this.state.timeUp}
             key={this.state.boardId}
             words={words}
             onWordFound={wordsFound => {

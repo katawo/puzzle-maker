@@ -8,7 +8,7 @@ const RowContainer = styled.div`
   flex-direction: row;
 `;
 
-function Board({ board, onCellToggled, findFoundKeyInBox }) {
+function Board({ board, onCellToggled, findFoundKeyInBox, disabled }) {
   const generateRow = (arr, index) => {
     const items = [];
     for (let i = 0; i < arr.length; i++) {
@@ -23,6 +23,7 @@ function Board({ board, onCellToggled, findFoundKeyInBox }) {
           key={cellKey} // to re-instantiate component
           onToggled={onCellToggled}
           completed={keyOfWordFoundInBox !== ''}
+          disabled={disabled}
         />
       );
     }

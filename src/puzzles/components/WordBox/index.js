@@ -54,6 +54,7 @@ class WordBox extends React.Component {
     return (
       <Box
         onClick={() => {
+          if (this.props.disabled) return;
           this.toggle();
         }}
         style={stylesObj}

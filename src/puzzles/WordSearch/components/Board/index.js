@@ -7,7 +7,8 @@ import { generateBoard } from '../../builder';
 export default class BoardContainer extends Component {
   static propTypes = {
     words: PropTypes.array.isRequired,
-    onWordFound: PropTypes.func
+    onWordFound: PropTypes.func,
+    disabled: PropTypes.bool
   };
 
   constructor(props) {
@@ -104,6 +105,7 @@ export default class BoardContainer extends Component {
         board={this.state.board}
         onCellToggled={this.handleCellToggled}
         findFoundKeyInBox={this.findFoundKeyInBox}
+        disabled={this.props.disabled}
       />
     );
   }
