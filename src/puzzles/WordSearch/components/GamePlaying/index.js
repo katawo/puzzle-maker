@@ -144,6 +144,7 @@ export default class GamePlayingContainer extends Component {
             }}
             onFinishRender={this.handleRenderFailed}
           />
+
           <div>
             <Button
               variant="success"
@@ -160,6 +161,14 @@ export default class GamePlayingContainer extends Component {
               Remake
             </Button>
             <br />
+            <br />
+            <div style={{ float: 'left' }}>
+              Found words:{' '}
+              <strong>
+                {this.state.wordsFound.length}/
+                {words.length - this.state.failedIndexs.length}
+              </strong>
+            </div>
             <br />
             {this.renderWordList()}
           </div>
