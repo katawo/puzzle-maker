@@ -16,7 +16,7 @@ export default class BoardContainer extends Component {
     super(props);
 
     const words = props.words.map(x =>
-      toUnsignedVietnamese(x.replace(/ */g, ''))
+      toUnsignedVietnamese(x).replace(/ */g, '')
     );
 
     const { board, renderFailed } = generateBoard(words);
