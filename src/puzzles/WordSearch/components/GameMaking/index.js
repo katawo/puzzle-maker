@@ -86,8 +86,8 @@ export default class GameMaking extends Component {
               <NumericInput
                 className="form-control"
                 value={this.state.limittedTime}
-                min={1}
-                max={1000}
+                min={0.5}
+                max={100}
                 step={0.5}
                 precision={1}
                 snap

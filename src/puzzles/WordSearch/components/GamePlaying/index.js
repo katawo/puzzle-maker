@@ -115,6 +115,7 @@ export default class GamePlayingContainer extends Component {
               date={this.state.timer.startedTime + this.props.duration}
               onComplete={this.handleTimeUp}
               renderer={CustomizedCountDown}
+              key={this.state.timer.startedTime}
             >
               {/* <Completionist /> */}
             </Countdown>
