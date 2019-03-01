@@ -32,3 +32,12 @@ export function toUnsignedVietnamese(text) {
 export function distinct(array) {
   return array.filter((value, index, self) => self.indexOf(value) === index);
 }
+
+export function distinctNotCaseSensitive(array) {
+  return array.filter((value, index, self) => {
+    const foundIndex = self.findIndex(
+      x => x.toLowerCase() === value.toLowerCase()
+    );
+    return foundIndex === index;
+  });
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
-import { toUnsignedVietnamese, distinct } from '../../../util';
+import { distinctNotCaseSensitive } from '../../../util';
 import NumericInput from 'react-numeric-input';
 
 const DEFAULT_LIMMITED_TIME = 3;
@@ -24,19 +24,17 @@ export default class GameMaking extends Component {
 
   makeGame() {
     if (!this.state.textValue) return;
-    // Remove spaces
-    // split by comma or line
+    // split
+    // trim
     // remove empty items
-    // const unsignedText = toUnsignedVietnamese(this.state.textValue);
-    // console.log({ unsignedText, replace: unsignedText.replace(/ */g, "") });
-
+    // distinct
     let words = this.state.textValue
-      .replace(/ */g, '')
       .split(/,|\n/)
-      .filter(x => x)
-      .map(x => toUnsignedVietnamese(x));
+      .map(w => w.trim())
+      .filter(x => x);
 
-    words = distinct(words);
+    words = distinctNotCaseSensitive(words);
+
     if (words.length === 0) return;
 
     this.props.onMakeGame(

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Board from './Board';
 import _ from 'lodash';
 import { generateBoard } from '../../builder';
+import { toUnsignedVietnamese } from '../../../util';
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -14,7 +15,11 @@ export default class BoardContainer extends Component {
   constructor(props) {
     super(props);
 
-    const { board, renderFailed } = generateBoard(props.words);
+    const words = props.words.map(x =>
+      toUnsignedVietnamese(x.replace(/ */g, ''))
+    );
+
+    const { board, renderFailed } = generateBoard(words);
 
     this.state = {
       selectedCells: [],
