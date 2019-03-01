@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Button, ListGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Board from '../Board';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown-now';
 import CustomizedCountDown from './CustomizedCountDown';
+import WordList from './components/WordList';
 
 export default class GamePlayingContainer extends Component {
   static propTypes = {
@@ -66,6 +67,43 @@ export default class GamePlayingContainer extends Component {
     });
   };
 
+  renderWordList() {
+    const { words } = this.props;
+    const { failedIndexs, wordsFound } = this.state;
+
+    const NUM_OF_ITEMS_IN_COL = 7;
+    const numOfColumn = Math.ceil(words.length / NUM_OF_ITEMS_IN_COL);
+    // console.log({ numOfColumn });
+
+    const cols = [];
+    for (let i = 0; i < numOfColumn; i++) {
+      cols.push([]);
+    }
+
+    words.forEach((word, index) => {
+      const item = {
+        value: word,
+        notRendered: failedIndexs.includes(index),
+        found: wordsFound && wordsFound.includes(index)
+      };
+
+      const colIndex = index % numOfColumn;
+      cols[colIndex].push(item);
+    });
+
+    return (
+      <div style={{ display: 'flex' }}>
+        {cols.map((x, index) => {
+          return (
+            <div key={index} style={{ marginRight: '20px' }}>
+              <WordList words={x} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   render() {
     const { words } = this.props;
     return (
@@ -115,36 +153,11 @@ export default class GamePlayingContainer extends Component {
             </Button>
             <br />
             <br />
-            <ListGroup>
-              {words.map((w, index) => {
-                return (
-                  <ListGroup.Item
-                    as="li"
-                    key={index}
-                    variant={
-                      this.state.failedIndexs.includes(index)
-                        ? 'warning'
-                        : this.state.wordsFound &&
-                          this.state.wordsFound.includes(index)
-                        ? 'dark'
-                        : ''
-                    }
-                  >
-                    {w}
-                  </ListGroup.Item>
-                );
-              })}
-            </ListGroup>
+            {this.renderWordList()}
           </div>
         </div>
         <br />
         <br />
-        {/* {this.state.gameEnded && (
-          <Alert dismissible variant="primary">
-            <Alert.Heading>Congratulation!</Alert.Heading>
-            <p>You have found all the words</p>
-          </Alert>
-        )} */}
       </div>
     );
   }
