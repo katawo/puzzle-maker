@@ -24,19 +24,23 @@ export default class GamePlayingContainer extends Component {
       failedIndexs: [],
       timer: {
         startedTime: Date.now(),
-        ended: false
-      }
+        timeup: false
+      },
+      completed: false
     };
   }
 
   handleGameEnded = () => {
     const { wordsFound, failedIndexs } = this.state;
     if (wordsFound.length + failedIndexs.length === this.props.words.length) {
-      this.setState({
-        timer: {
-          ended: true
+      this.setState(
+        {
+          completed: true
+        },
+        () => {
+          this._countdown.pause();
         }
-      });
+      );
     }
   };
 
@@ -46,8 +50,9 @@ export default class GamePlayingContainer extends Component {
       boardId: this.state.boardId + 1,
       timer: {
         startedTime: Date.now(),
-        ended: false
-      }
+        timeup: false
+      },
+      completed: false
     });
   };
 
@@ -62,7 +67,7 @@ export default class GamePlayingContainer extends Component {
     this.setState({
       timer: {
         ...this.state.timer,
-        ended: true
+        timeup: true
       }
     });
   };
@@ -108,19 +113,21 @@ export default class GamePlayingContainer extends Component {
     const { words } = this.props;
     return (
       <div>
-        <h4>{this.props.topic || 'Have fun'}</h4>
+        <h1>{this.props.topic || 'Have fun'}</h1>
         <h2>
-          {(this.state.timer && this.state.timer.startedTime && (
-            <Countdown
-              date={this.state.timer.startedTime + this.props.duration}
-              onComplete={this.handleTimeUp}
-              renderer={CustomizedCountDown}
-              key={this.state.timer.startedTime}
-            >
-              {/* <Completionist /> */}
-            </Countdown>
-          )) || <span style={{ color: 'green' }}>'Congratulation!'</span>}
+          <Countdown
+            date={this.state.timer.startedTime + this.props.duration}
+            onComplete={this.handleTimeUp}
+            renderer={CustomizedCountDown}
+            key={this.state.timer.startedTime}
+            ref={countdown => (this._countdown = countdown)}
+          />
         </h2>
+        {this.state.completed && (
+          <h3>
+            <span style={{ color: 'green' }}>Congratulation!</span>
+          </h3>
+        )}
         <br />
         <div
           style={{
@@ -129,7 +136,7 @@ export default class GamePlayingContainer extends Component {
           }}
         >
           <Board
-            disabled={this.state.timer.ended}
+            disabled={this.state.timer.timeup || this.state.completed}
             key={this.state.boardId}
             words={words}
             onWordFound={wordsFound => {
@@ -141,7 +148,7 @@ export default class GamePlayingContainer extends Component {
             <Button
               variant="success"
               onClick={this.props.onNewGame}
-              disabled={!this.state.timer.ended}
+              disabled={!this.state.timer.timeup && !this.state.completed}
             >
               New game
             </Button>

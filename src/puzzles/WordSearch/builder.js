@@ -28,9 +28,10 @@ export function generateBoard(originalWords) {
   // console.log('generate board');
 
   words.sort((a, b) => b.length - a.length);
-  const ADDITIONAL_CELL = 3;
+  const ADDITIONAL_CELL = 1;
+  const MIN_SIZE = 5;
   const size = words[0].length + ADDITIONAL_CELL;
-  const board = initBoard(size);
+  const board = initBoard(Math.max(size, MIN_SIZE));
   // console.log({ data: originalWords, words, size });
 
   const renderFailed = [];
