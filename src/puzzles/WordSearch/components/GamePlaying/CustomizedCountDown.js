@@ -1,7 +1,10 @@
 import React from 'react';
+import _ from 'lodash';
 
 // Random component
-const Completionist = () => <span>Không được khôn nhắm =]]</span>;
+export const Completionist = () => (
+  <span style={{ color: 'blue' }}>Không được khôn nhắm =]]</span>
+);
 
 // Renderer callback with condition
 export default ({ hours, minutes, seconds, completed }) => {
@@ -12,7 +15,10 @@ export default ({ hours, minutes, seconds, completed }) => {
     // Render a countdown
     return (
       <span>
-        {hours}:{minutes}:{seconds}
+        Time left:
+        <span style={{ color: 'red', marginLeft: '10px' }}>
+          {_.padStart(minutes, 2, '0')}:{_.padStart(seconds, 2, '0')}
+        </span>
       </span>
     );
   }

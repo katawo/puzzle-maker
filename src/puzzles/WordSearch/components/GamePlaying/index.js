@@ -3,21 +3,28 @@ import { Button, ListGroup, Alert } from 'react-bootstrap';
 import Board from '../Board';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown-now';
-import CustomizedCountDown from './CustomizedCountDown';
+import CustomizedCountDown, { Completionist } from './CustomizedCountDown';
 
 export default class GamePlayingContainer extends Component {
   static propTypes = {
-    words: PropTypes.array.isRequired
+    words: PropTypes.array.isRequired,
+    duration: PropTypes.number
+  };
+
+  static defaultProps = {
+    duration: 3000
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      gameEnded: false,
       wordsFound: [],
       boardId: 0,
       failedIndexs: [],
-      timeUp: false
+      timer: {
+        startedTime: Date.now(),
+        ended: false
+      }
     };
   }
 
@@ -25,19 +32,22 @@ export default class GamePlayingContainer extends Component {
     const { wordsFound, failedIndexs } = this.state;
     if (wordsFound.length + failedIndexs.length === this.props.words.length) {
       this.setState({
-        gameEnded: true
+        timer: {
+          ended: true
+        }
       });
     }
   };
 
   remake = () => {
     this.setState({
-      gameEnded: false,
       wordsFound: [],
       boardId: this.state.boardId + 1,
-      timeUp: false
+      timer: {
+        startedTime: Date.now(),
+        ended: false
+      }
     });
-    // TODO: reset timer
   };
 
   handleRenderFailed = indexs => {
@@ -49,7 +59,10 @@ export default class GamePlayingContainer extends Component {
 
   handleTimeUp = () => {
     this.setState({
-      timeUp: true
+      timer: {
+        ...this.state.timer,
+        ended: true
+      }
     });
   };
 
@@ -57,13 +70,17 @@ export default class GamePlayingContainer extends Component {
     const { words } = this.props;
     return (
       <div>
-        <h1>{this.props.topic || 'Have fun'}</h1>
+        <h4>{this.props.topic || 'Have fun'}</h4>
         <h2>
-          <Countdown
-            date={Date.now() + 3000}
-            renderer={CustomizedCountDown}
-            onComplete={this.handleTimeUp}
-          />
+          {(this.state.timer && this.state.timer.startedTime && (
+            <Countdown
+              date={this.state.timer.startedTime + this.props.duration}
+              onComplete={this.handleTimeUp}
+              renderer={CustomizedCountDown}
+            >
+              {/* <Completionist /> */}
+            </Countdown>
+          )) || <span style={{ color: 'green' }}>'Congratulation!'</span>}
         </h2>
         <br />
         <div
@@ -73,7 +90,7 @@ export default class GamePlayingContainer extends Component {
           }}
         >
           <Board
-            disabled={this.state.timeUp}
+            disabled={this.state.timer.ended}
             key={this.state.boardId}
             words={words}
             onWordFound={wordsFound => {
@@ -85,14 +102,13 @@ export default class GamePlayingContainer extends Component {
             <Button
               variant="success"
               onClick={this.props.onNewGame}
-              disabled={!this.state.gameEnded}
+              disabled={!this.state.timer.ended}
             >
               New game
             </Button>
             <Button
               variant="success"
               onClick={this.remake}
-              // disabled={!this.state.gameEnded}
               style={{ marginLeft: '10px' }}
             >
               Remake
@@ -123,12 +139,12 @@ export default class GamePlayingContainer extends Component {
         </div>
         <br />
         <br />
-        {this.state.gameEnded && (
+        {/* {this.state.gameEnded && (
           <Alert dismissible variant="primary">
             <Alert.Heading>Congratulation!</Alert.Heading>
             <p>You have found all the words</p>
           </Alert>
-        )}
+        )} */}
       </div>
     );
   }
