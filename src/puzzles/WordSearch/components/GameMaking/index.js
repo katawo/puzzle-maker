@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { toUnsignedVietnamese, distinct } from '../../../util';
+import NumericInput from 'react-numeric-input';
+
+const DEFAULT_LIMMITED_TIME = 3;
 
 export default class GameMaking extends Component {
   state = {
     gameTitle: '',
-    textValue: ''
+    textValue: '',
+    limittedTime: DEFAULT_LIMMITED_TIME
   };
 
   handleWordsChange(event) {
@@ -35,7 +39,11 @@ export default class GameMaking extends Component {
     words = distinct(words);
     if (words.length === 0) return;
 
-    this.props.onMakeGame(words, this.state.gameTitle);
+    this.props.onMakeGame(
+      words,
+      this.state.gameTitle,
+      this.state.limittedTime * 60 * 1000
+    );
   }
 
   render() {
@@ -71,6 +79,31 @@ export default class GameMaking extends Component {
           <Form.Text className="text-muted">
             Separated by comma (,) or line
           </Form.Text>
+          <br />
+          <Form.Row>
+            <Col sm={{ span: 'auto', offset: 4 }}>
+              <Form.Text>Limmited Time:</Form.Text>
+            </Col>
+            <Col sm={{ span: '1' }}>
+              <NumericInput
+                className="form-control"
+                value={this.state.limittedTime}
+                min={1}
+                max={1000}
+                step={0.5}
+                precision={1}
+                snap
+                onChange={value => {
+                  this.setState({
+                    limittedTime: value
+                  });
+                }}
+              />
+            </Col>
+            <Col sm={{ span: 'auto' }}>
+              <Form.Text>in minutes</Form.Text>
+            </Col>
+          </Form.Row>
           <br />
           <Button
             variant="success"

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button, ListGroup, Alert } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import Board from '../Board';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown-now';
-import CustomizedCountDown, { Completionist } from './CustomizedCountDown';
+import CustomizedCountDown from './CustomizedCountDown';
 
 export default class GamePlayingContainer extends Component {
   static propTypes = {

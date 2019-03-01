@@ -17,10 +17,11 @@ class WordSearch extends React.Component {
     gameStatus: GameStatus.Making
   };
 
-  makeGame = (words, topic) => {
+  makeGame = (words, topic, limittedTime) => {
     this.setState({
       words,
       topic,
+      limittedTime,
       gameEnded: false,
       gameStatus: GameStatus.Playing
     });
@@ -42,6 +43,7 @@ class WordSearch extends React.Component {
                 gameStatus: GameStatus.Making
               })
             }
+            duration={this.state.limittedTime}
           />
         )}
       </div>
