@@ -171,6 +171,15 @@ export default class GamePlayingContainer extends Component {
             </div>
             <br />
             {this.renderWordList()}
+            <br />
+            {this.state.failedIndexs.length > 0 && (
+              <div style={{ color: 'red' }}>
+                There are {this.state.failedIndexs.length} word(s) failed to
+                render. You can play with the rendered words or click{' '}
+                <span style={{ color: 'blue' }}>Remake</span> button to try
+                again.
+              </div>
+            )}
           </div>
         </div>
         <br />
