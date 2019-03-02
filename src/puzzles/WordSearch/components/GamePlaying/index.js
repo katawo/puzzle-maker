@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Board from '../Board';
 import PropTypes from 'prop-types';
 import Countdown from 'react-countdown-now';
@@ -26,7 +26,8 @@ export default class GamePlayingContainer extends Component {
         startedTime: Date.now(),
         timeup: false
       },
-      completed: false
+      completed: false,
+      renewConfirmationShow: false
     };
   }
 
@@ -109,6 +110,32 @@ export default class GamePlayingContainer extends Component {
     );
   }
 
+  handleCancel = () => {
+    this.setState({
+      renewConfirmationShow: false
+    });
+  };
+
+  handleConfirm = () => {
+    this.setState(
+      {
+        renewConfirmationShow: false
+      },
+      this.props.onNewGame
+    );
+  };
+
+  handleRenewClick = () => {
+    const isPlaying = !this.state.completed && this.state.wordsFound.length > 0;
+    if (isPlaying) {
+      this.setState({
+        renewConfirmationShow: true
+      });
+    } else {
+      this.props.onNewGame();
+    }
+  };
+
   render() {
     const { words } = this.props;
     return (
@@ -148,8 +175,8 @@ export default class GamePlayingContainer extends Component {
           <div>
             <Button
               variant="success"
-              onClick={this.props.onNewGame}
-              disabled={!this.state.timer.timeup && !this.state.completed}
+              onClick={this.handleRenewClick}
+              // disabled={!this.state.timer.timeup && !this.state.completed}
             >
               New game
             </Button>
@@ -184,6 +211,23 @@ export default class GamePlayingContainer extends Component {
         </div>
         <br />
         <br />
+        <Modal
+          show={this.state.renewConfirmationShow}
+          onHide={this.handleCancel}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Renew</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Do you really want to renew the game?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={this.handleConfirm}>
+              Renew
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
