@@ -76,7 +76,7 @@ export default class GamePlayingContainer extends Component {
     const { words } = this.props;
     const { failedIndexs, wordsFound } = this.state;
 
-    const NUM_OF_ITEMS_IN_COL = 7;
+    const NUM_OF_ITEMS_IN_COL = 9;
     const numOfColumn = Math.ceil(words.length / NUM_OF_ITEMS_IN_COL);
     // console.log({ numOfColumn });
 
@@ -113,8 +113,8 @@ export default class GamePlayingContainer extends Component {
     const { words } = this.props;
     return (
       <div>
-        <h1>{this.props.topic || 'Have fun'}</h1>
-        <h2>
+        <h2>{this.props.topic || 'Have fun'}</h2>
+        <h4>
           <Countdown
             date={this.state.timer.startedTime + this.props.duration}
             onComplete={this.handleTimeUp}
@@ -122,11 +122,11 @@ export default class GamePlayingContainer extends Component {
             key={this.state.timer.startedTime}
             ref={countdown => (this._countdown = countdown)}
           />
-        </h2>
+        </h4>
         {this.state.completed && (
-          <h3>
+          <h4>
             <span style={{ color: 'green' }}>Congratulation!</span>
-          </h3>
+          </h4>
         )}
         <br />
         <div

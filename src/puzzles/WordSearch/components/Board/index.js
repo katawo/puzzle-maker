@@ -31,25 +31,15 @@ export default class BoardContainer extends Component {
       selectedCells: [],
       wordsFound: [],
       board,
-      renderFailed: renderFailed
+      renderFailed: renderFailed,
+      foundCells: []
     };
 
     props.onFinishRender(renderFailed);
   }
 
-  findFoundKeyInBox = boxData => {
-    // const { tags } = boxData;
-    // return tags.reduce((sum, value) => {
-    //   if (this.state.wordsFound.includes(value.key)) {
-    //     return sum + value.key;
-    //   }
-    //   return sum;
-    // }, '');
-    return '';
-  };
-
   handleCellToggled = (value, state) => {
-    console.log('cell toggled >>> ', value, state);
+    // console.log('cell toggled >>> ', value, state);
     let selectedCells;
     if (state) {
       selectedCells = [...this.state.selectedCells, value];
@@ -77,47 +67,32 @@ export default class BoardContainer extends Component {
       this.setState(
         {
           selectedCells: [],
-          wordsFound: [...this.state.wordsFound, completedKey]
+          wordsFound: [...this.state.wordsFound, completedKey],
+          foundCells: [
+            ...this.state.foundCells,
+            {
+              key: completedKey,
+              cells: this.state.selectedCells
+            }
+          ]
         },
         () => {
           this.props.onWordFound(this.state.wordsFound);
-          _.remove(this._formattedWords, x => x.key === completedKey);
+          _.find(
+            this._formattedWords,
+            x => x.key === completedKey
+          ).found = true;
         }
       );
     }
   };
 
   checkWordComplete = () => {
-    return findTextInWords(this.state.selectedCells, this._formattedWords);
+    return findTextInWords(
+      this.state.selectedCells,
+      this._formattedWords.filter(x => !x.found)
+    );
   };
-
-  // checkWordComplete = () => {
-  //   const { selectedCells } = this.state;
-  //   // same key
-  //   // num of items = checkSum
-  //   // key > 0
-  //   if (selectedCells && selectedCells.length > 0) {
-  //     const { tags } = selectedCells[0];
-  //     let foundKey = null;
-  //     // console.log('tags ', tags, selectedCells);
-  //     tags.forEach(({ key, checkSum }) => {
-  //       if (key >= 0 && checkSum === selectedCells.length) {
-  //         const sameKey = _.every(selectedCells, cell =>
-  //           _.some(cell.tags, tag => tag.key === key)
-  //         );
-  //         // console.log('tag >>> ', { key, checkSum, sameKey });
-  //         if (sameKey) {
-  //           foundKey = key;
-  //           return;
-  //         }
-  //       }
-  //     });
-
-  //     return foundKey;
-  //   } else {
-  //     return null;
-  //   }
-  // };
 
   render() {
     return (
@@ -126,6 +101,7 @@ export default class BoardContainer extends Component {
         onCellToggled={this.handleCellToggled}
         findFoundKeyInBox={this.findFoundKeyInBox}
         disabled={this.props.disabled}
+        foundCells={this.state.foundCells}
       />
     );
   }

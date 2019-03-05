@@ -126,11 +126,11 @@ function fillWordToBoard(board, word, direction, initPosition) {
   for (let i = 0; i < text.length; i++) {
     const xcell = initPosition.x + i * direction.x;
     const ycell = initPosition.y + i * direction.y;
-    const cell = board[xcell][ycell];
+    const cell = board[ycell][xcell];
     if (cell.char) {
       appendTagToCell(cell, key);
     } else {
-      board[xcell][ycell] = createCell(text[i], { x: xcell, y: ycell }, key);
+      board[ycell][xcell] = createCell(text[i], { x: xcell, y: ycell }, key);
     }
   }
 }
