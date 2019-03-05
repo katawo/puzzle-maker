@@ -4,6 +4,7 @@ import Board from './Board';
 import _ from 'lodash';
 import { generateBoard } from '../../builder';
 import { toUnsignedVietnamese } from '../../../util';
+import { findTextInWords } from '../../wordDetection';
 
 export default class BoardContainer extends Component {
   static propTypes = {
@@ -12,14 +13,19 @@ export default class BoardContainer extends Component {
     disabled: PropTypes.bool
   };
 
+  _formattedWords = [];
+
   constructor(props) {
     super(props);
 
-    const words = props.words.map(x =>
-      toUnsignedVietnamese(x).replace(/ */g, '')
-    );
+    this._formattedWords = props.words.map((x, index) => {
+      const formattedText = toUnsignedVietnamese(x)
+        .replace(/ */g, '')
+        .toUpperCase();
+      return { text: formattedText, key: index };
+    });
 
-    const { board, renderFailed } = generateBoard(words);
+    const { board, renderFailed } = generateBoard([...this._formattedWords]);
 
     this.state = {
       selectedCells: [],
@@ -32,17 +38,18 @@ export default class BoardContainer extends Component {
   }
 
   findFoundKeyInBox = boxData => {
-    const { tags } = boxData;
-    return tags.reduce((sum, value) => {
-      if (this.state.wordsFound.includes(value.key)) {
-        return sum + value.key;
-      }
-      return sum;
-    }, '');
+    // const { tags } = boxData;
+    // return tags.reduce((sum, value) => {
+    //   if (this.state.wordsFound.includes(value.key)) {
+    //     return sum + value.key;
+    //   }
+    //   return sum;
+    // }, '');
+    return '';
   };
 
   handleCellToggled = (value, state) => {
-    // console.log('cell toggled >>> ', value, state);
+    console.log('cell toggled >>> ', value, state);
     let selectedCells;
     if (state) {
       selectedCells = [...this.state.selectedCells, value];
@@ -61,7 +68,8 @@ export default class BoardContainer extends Component {
   };
 
   handleSelectedCellsChanged = () => {
-    const completedKey = this.checkWordComplete();
+    const foundWord = this.checkWordComplete();
+    const completedKey = foundWord && foundWord.key;
     // console.log('>>> completedKey: ', completedKey);
 
     if (_.isNumber(completedKey)) {
@@ -71,38 +79,45 @@ export default class BoardContainer extends Component {
           selectedCells: [],
           wordsFound: [...this.state.wordsFound, completedKey]
         },
-        () => this.props.onWordFound(this.state.wordsFound)
+        () => {
+          this.props.onWordFound(this.state.wordsFound);
+          _.remove(this._formattedWords, x => x.key === completedKey);
+        }
       );
     }
   };
 
   checkWordComplete = () => {
-    const { selectedCells } = this.state;
-    // same key
-    // num of items = checkSum
-    // key > 0
-    if (selectedCells && selectedCells.length > 0) {
-      const { tags } = selectedCells[0];
-      let foundKey = null;
-      // console.log('tags ', tags, selectedCells);
-      tags.forEach(({ key, checkSum }) => {
-        if (key >= 0 && checkSum === selectedCells.length) {
-          const sameKey = _.every(selectedCells, cell =>
-            _.some(cell.tags, tag => tag.key === key)
-          );
-          // console.log('tag >>> ', { key, checkSum, sameKey });
-          if (sameKey) {
-            foundKey = key;
-            return;
-          }
-        }
-      });
-
-      return foundKey;
-    } else {
-      return null;
-    }
+    return findTextInWords(this.state.selectedCells, this._formattedWords);
   };
+
+  // checkWordComplete = () => {
+  //   const { selectedCells } = this.state;
+  //   // same key
+  //   // num of items = checkSum
+  //   // key > 0
+  //   if (selectedCells && selectedCells.length > 0) {
+  //     const { tags } = selectedCells[0];
+  //     let foundKey = null;
+  //     // console.log('tags ', tags, selectedCells);
+  //     tags.forEach(({ key, checkSum }) => {
+  //       if (key >= 0 && checkSum === selectedCells.length) {
+  //         const sameKey = _.every(selectedCells, cell =>
+  //           _.some(cell.tags, tag => tag.key === key)
+  //         );
+  //         // console.log('tag >>> ', { key, checkSum, sameKey });
+  //         if (sameKey) {
+  //           foundKey = key;
+  //           return;
+  //         }
+  //       }
+  //     });
+
+  //     return foundKey;
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   render() {
     return (
