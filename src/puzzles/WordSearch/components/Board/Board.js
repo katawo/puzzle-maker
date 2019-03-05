@@ -51,7 +51,7 @@ function Board({ board, onCellToggled, disabled, foundCells }) {
   }
 
   return (
-    <div style={{ margin: '0 15px 0 0' }}>
+    <div style={{ margin: '0 15px 0 0', overflowX: 'auto' }}>
       <div
         style={{
           paddingTop: '1px',
